@@ -68,7 +68,7 @@ spec:
               files:
                 - path: global-cluster-addons/charts/**/values.yaml
               values:
-                selector: "{{ path[2] }}"
+                selector: "{{ path[2] }}-{{name}}"
                 path: "{{ path }}"
   template:
     metadata:
