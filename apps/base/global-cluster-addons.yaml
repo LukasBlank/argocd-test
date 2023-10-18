@@ -61,7 +61,7 @@ spec:
         generators:
           - clusters:
               values:
-                selector: "{{ metadata.name }}"
+                selector: "{{ name }}"
           - git:
               repoURL: https://github.com/LukasBlank/argocd-test.git
               revision: HEAD
