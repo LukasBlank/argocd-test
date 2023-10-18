@@ -35,7 +35,7 @@ spec:
     spec:
       project: default
       source:
-        path: "{{ path }}/manifest/base/"
+        path: "{{ path }}/base/"
         repoURL: https://github.com/LukasBlank/argocd-test.git
         targetRevision: "{{ app.revision }}"
       destination:
