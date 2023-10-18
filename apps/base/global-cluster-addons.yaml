@@ -57,17 +57,18 @@ spec:
   generators:
     - merge:
         mergeKeys:
-          - name
+          - values.selector
         generators:
+          - clusters:
+              values:
+                selector: "{{ metadata.name }}"
           - git:
               repoURL: https://github.com/LukasBlank/argocd-test.git
-              revision: main
+              revision: HEAD
               files:
-                - path: global-cluster-addons/charts/*/chart/env/*/values.yaml
-          - clusters:
-              selector:
-                matchLabels:
-                  argocd.argoproj.io/secret-type: cluster
+                - path: global-cluster-addons/charts/**/values.yaml
+              values:
+                selector: "{{ path }}"
   template:
     metadata:
       name: "{{ path.basename }}-{{ name }}"
