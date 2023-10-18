@@ -48,6 +48,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: global-cluster-addons-charts
+  namespace: default
   labels:
     deployment: helm
   annotations:
