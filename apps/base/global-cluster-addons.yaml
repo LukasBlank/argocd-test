@@ -78,7 +78,7 @@ spec:
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
-      project: cluster-addons
+      project: default
       source:
         path: "{{ path }}/chart"
         repoURL: https://github.com/LukasBlank/argocd-test.git
