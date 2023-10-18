@@ -1,0 +1,4 @@
+app:
+  syncWave: "-50"
+  revision: main
+  namespace: external-secrets

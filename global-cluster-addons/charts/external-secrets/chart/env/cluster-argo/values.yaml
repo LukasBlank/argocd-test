@@ -1,0 +1,5 @@
+external-secrets:
+  installCRDS: true
+  serviceAccount:
+    create: true
+    name: external-secrets
