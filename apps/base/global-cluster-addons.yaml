@@ -72,11 +72,11 @@ spec:
                 path: "{{ path }}"
   template:
     metadata:
-      name: "{{ values.basename }}-{{ name }}"
+      name: "{{ values.selector }}-{{ name }}"
       namespace: default
       labels:
         cluster: "{{ name }}"
-        name: "{{ values.basename }}"
+        name: "{{ values.selector }}"
       annotations:
         argocd.argoproj.io/sync-wave: "-50"
       finalizers:
@@ -88,12 +88,12 @@ spec:
         repoURL: https://github.com/LukasBlank/argocd-test.git
         targetRevision: "main"
         helm:
-          releaseName: "{{ values.basename }}"
+          releaseName: "{{ values.selector }}"
           valueFiles:
             - "env/{{ name }}/values.yaml"
       destination:
         server: "{{ server }}"
-        namespace: "{{ values.basename }}"
+        namespace: "{{ values.selector }}"
       syncPolicy:
         automated: {}
 ---
