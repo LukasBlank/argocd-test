@@ -62,7 +62,7 @@ spec:
           - path: global-cluster-addons/charts/**/values.yaml
   template:
     metadata:
-      name: "{{ config.name }}-{{ config.cluster }}-{{config.server}}"
+      name: "{{ config.name }}-{{ config.cluster }}"
       namespace: default
       labels:
         cluster: "{{ config.cluster }}"
