@@ -62,11 +62,11 @@ spec:
           - path: global-cluster-addons/charts/**/values.yaml
   template:
     metadata:
-      name: "{{ .cluster }}"
+      name: "{{ config.cluster }}"
       namespace: default
       labels:
-        cluster: "{{ .cluster }}"
-        name: "{{ .path[2] }}"
+        cluster: "{{ config.cluster }}"
+        name: "{{ config.name }}"
       annotations:
         argocd.argoproj.io/sync-wave: "-50"
       finalizers:
@@ -74,16 +74,16 @@ spec:
     spec:
       project: default
       source:
-        path: "global-cluster-addons/charts/{{.path[2]}}/chart"
+        path: "global-cluster-addons/charts/{{ config.name }}/chart"
         repoURL: https://github.com/LukasBlank/argocd-test.git
         targetRevision: "main"
         helm:
-          releaseName: "{{ .path[2] }}"
+          releaseName: "{{ config.name }}"
           valueFiles:
-            - "env/{{ .cluster }}/values.yaml"
+            - "env/{{ config.cluster }}/values.yaml"
       destination:
-        server: "{{ .server }}"
-        namespace: "{{ .path[2] }}"
+        server: "{{ config.server }}"
+        namespace: "{{ config.name }}"
       syncPolicy:
         automated: {}
 ---
