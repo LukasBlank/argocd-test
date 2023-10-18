@@ -55,7 +55,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "-100"
 spec:
   generators:
-    - matrix:
+    - merge:
+        mergeKeys:
+          - name
         generators:
           - git:
               repoURL: https://github.com/LukasBlank/argocd-test.git
