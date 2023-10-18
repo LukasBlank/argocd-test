@@ -72,7 +72,7 @@ spec:
                 basename: "{{ path[2] }}"
   template:
     metadata:
-      name: "{{ values.basename }}-{{ name }}"
+      name: "{{ path[2] }}-{{ name }}"
       namespace: default
       labels:
         cluster: "{{ name }}"
