@@ -55,24 +55,14 @@ metadata:
     argocd.argoproj.io/sync-wave: "-100"
 spec:
   generators:
-    - merge:
-        mergeKeys:
-          - values.selector
-        generators:
-          - clusters:
-              values:
-                selector: "{{ name }}-1"
-          - git:
-              repoURL: https://github.com/LukasBlank/argocd-test.git
-              revision: HEAD
-              files:
-                - path: global-cluster-addons/charts/**/values.yaml
-              values:
-                selector: "{{ path[2] }}-{{name}}"
-                basename: "{{ path[2] }}"
+    - git:
+        repoURL: https://github.com/LukasBlank/argocd-test.git
+        revision: HEAD
+        files:
+          - path: global-cluster-addons/charts/**/values.yaml
   template:
     metadata:
-      name: "{{ .cluster }}-{{ name }}"
+      name: "{{ .cluster }}"
       namespace: default
       labels:
         cluster: "{{ name }}"
