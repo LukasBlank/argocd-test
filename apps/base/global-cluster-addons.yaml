@@ -61,7 +61,7 @@ spec:
               repoURL: https://github.com/LukasBlank/argocd-test.git
               revision: main
               files:
-                - path: global-cluster-addons/charts/*/config.yaml
+                - path: global-cluster-addons/charts/*/chart/env/*/values.yaml
           - clusters:
               selector:
                 matchLabels:
