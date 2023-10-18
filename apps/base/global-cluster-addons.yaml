@@ -24,6 +24,7 @@ spec:
   template:
     metadata:
       name: "{{ path.basename }}-{{ name }}"
+      namespace: default
       labels:
         cluster: "{{ name }}"
         name: "{{ path.basename }}"
