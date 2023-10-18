@@ -69,14 +69,14 @@ spec:
                 - path: global-cluster-addons/charts/**/values.yaml
               values:
                 selector: "{{ path[2] }}-{{name}}"
-                basename: "{{ path[2] }}-{{name}}"
+                basename: "{{ path[2] }}"
   template:
     metadata:
-      name: "{{ values.selector }}-{{ name }}"
+      name: "{{ values.basename }}-{{ name }}"
       namespace: default
       labels:
         cluster: "{{ name }}"
-        name: "{{ values.selector }}"
+        name: "{{ values.basename }}"
       annotations:
         argocd.argoproj.io/sync-wave: "-50"
       finalizers:
@@ -84,16 +84,16 @@ spec:
     spec:
       project: default
       source:
-        path: "global-cluster-addons/charts/{{path.basename}}/chart"
+        path: "global-cluster-addons/charts/{{values.basename}}/chart"
         repoURL: https://github.com/LukasBlank/argocd-test.git
         targetRevision: "main"
         helm:
-          releaseName: "{{ values.selector }}"
+          releaseName: "{{ values.basename }}"
           valueFiles:
             - "env/{{ name }}/values.yaml"
       destination:
         server: "{{ server }}"
-        namespace: "{{ values.selector }}"
+        namespace: "{{ values.basename }}"
       syncPolicy:
         automated: {}
 ---
