@@ -3,3 +3,5 @@ external-secrets:
   serviceAccount:
     create: true
     name: external-secrets
+
+cluster: cluster-satelite-1
