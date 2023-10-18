@@ -61,7 +61,7 @@ spec:
         generators:
           - clusters:
               values:
-                selector: "{{ name }}"
+                selector: "{{ name }}-1"
           - git:
               repoURL: https://github.com/LukasBlank/argocd-test.git
               revision: HEAD
@@ -69,7 +69,7 @@ spec:
                 - path: global-cluster-addons/charts/**/values.yaml
               values:
                 selector: "{{ path[2] }}-{{name}}"
-                path: "{{ path }}"
+                basename: "{{ path[2] }}-{{name}}"
   template:
     metadata:
       name: "{{ values.selector }}-{{ name }}"
