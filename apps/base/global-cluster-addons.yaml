@@ -13,7 +13,7 @@ spec:
     - matrix:
         generators:
           - git:
-              repoURL: https://github.com/LukasBlank/argocd-test.git
+              repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
               revision: main
               files:
                 - path: global-cluster-addons/manifests/*/config.yaml
@@ -36,7 +36,7 @@ spec:
       project: default
       source:
         path: "{{ path }}/base/"
-        repoURL: https://github.com/LukasBlank/argocd-test.git
+        repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
         targetRevision: "{{ app.revision }}"
       destination:
         server: "{{ server }}"
@@ -56,7 +56,7 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: https://github.com/LukasBlank/argocd-test.git
+        repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
         revision: HEAD
         files:
           - path: global-cluster-addons/charts/**/values.yaml
@@ -75,7 +75,7 @@ spec:
       project: default
       source:
         path: "global-cluster-addons/charts/{{ config.name }}/chart"
-        repoURL: https://github.com/LukasBlank/argocd-test.git
+        repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
         targetRevision: "main"
         helm:
           releaseName: "{{ config.name }}"
