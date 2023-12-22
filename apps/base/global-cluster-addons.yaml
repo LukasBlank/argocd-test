@@ -83,7 +83,7 @@ spec:
           valueFiles:
             - "../env/{{ config.cluster }}/values.yaml"
       destination:
-        server: "{{config.server}}"
+        server: "{{ server }}"
         namespace: "{{ config.name }}"
       syncPolicy:
         automated: {}
