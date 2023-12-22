@@ -59,7 +59,7 @@ spec:
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
         revision: HEAD
         files:
-          - path: global-cluster-addons/charts/*/env/*/config.yaml
+          - path: global-cluster-addons/charts/*/env/*/values.yaml
   template:
     metadata:
       name: "{{ config.name }}-{{ config.cluster }}"
