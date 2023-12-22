@@ -1,0 +1,11 @@
+external-secrets:
+  installCRDS: true
+  serviceAccount:
+    create: true
+    name: external-secrets
+
+config:
+  name: external-secrets
+  cluster: cluster-satelite-1
+  server: "https://172.27.222.219:8443"
+  version: 0.5.6
