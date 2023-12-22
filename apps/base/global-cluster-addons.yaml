@@ -62,11 +62,12 @@ spec:
           - path: global-cluster-addons/charts/*/env/*/values.yaml
   template:
     metadata:
-      name: "{{ config.name }}-{{ config.cluster }}"
+      name: "{{ config.name }}-{{ config.version }}-{{ config.cluster }}"
       namespace: default
       labels:
         cluster: "{{ config.cluster }}"
         name: "{{ config.name }}"
+        version: "{{ config.version }}"
       annotations:
         argocd.argoproj.io/sync-wave: "-50"
       finalizers:
@@ -74,7 +75,7 @@ spec:
     spec:
       project: default
       source:
-        path: "global-cluster-addons/charts/{{ config.name }}/chart"
+        path: "global-cluster-addons/charts/{{ config.name }}/{{ config.version }}"
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
         targetRevision: "main"
         helm:
