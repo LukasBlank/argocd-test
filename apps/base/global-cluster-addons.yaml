@@ -74,7 +74,7 @@ spec:
     spec:
       project: default
       source:
-        path: "global-cluster-addons/charts/{{ config.name }}/{{ config.version }}"
+        path: "global-cluster-addons/charts/{{ config.name }}/chart"
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
         targetRevision: "main"
         helm:
