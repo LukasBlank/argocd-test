@@ -16,7 +16,7 @@ spec:
               repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
               revision: variable_deployment
               files:
-                - path: global-cluster-addons/manifests/*/kustomization.yaml
+                - path: global-cluster-addons/manifests/*/overlays/*/kustomization.yaml
           - clusters:
               selector:
                 matchLabels:
