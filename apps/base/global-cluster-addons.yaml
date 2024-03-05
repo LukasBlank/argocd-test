@@ -21,7 +21,7 @@ spec:
       namespace: default
       labels:
         cluster: '{{ path.basename }}'
-        name: '{{ path.basename }}'
+        name: '{{ path[2]}}'
       annotations:
         argocd.argoproj.io/sync-wave: "{{ app.syncWave }}"
       finalizers:
@@ -34,7 +34,7 @@ spec:
         targetRevision: variable_deployment
       destination:
         server: '{{ config.server }}'
-        namespace: '{{ app.namespace }}'
+        namespace: default
       syncPolicy:
         automated: {}
 ---
@@ -49,24 +49,18 @@ metadata:
     argocd.argoproj.io/sync-wave: "-100"
 spec:
   generators:
-  - matrix:
-      generators:
-      - git:
-          repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-          revision: initial_structure
-          files:
-          - path: global-cluster-addons/charts/*/config.yaml
-      - clusters:
-          selector:
-            matchLabels:
-              argocd.argoproj.io/secret-type: cluster
+  - git:
+      repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
+      revision: variable_deployment
+      files:
+      - path: global-cluster-addons/charts/*/chart/env/*/values.yaml
   template:
     metadata:
-      name: '{{ path.basename }}-{{ name }}'
+      name: '{{ path.basename }}-{{ path[2] }}'
       namespace: default
       labels:
         cluster: '{{ name }}'
-        name: '{{ path.basename }}'
+        name: '{{ path[2] }}'
       annotations:
         argocd.argoproj.io/sync-wave: "{{ app.syncWave }}"
       finalizers:
