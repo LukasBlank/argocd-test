@@ -70,7 +70,7 @@ spec:
       source:
         path: '{{ path }}/chart'
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-        targetRevision: '{{ app.revision }}'
+        targetRevision: default
         helm:
           releaseName: '{{ path.basename }}'
           ignoreMissingValueFiles: true
