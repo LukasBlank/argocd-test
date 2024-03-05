@@ -23,7 +23,7 @@ spec:
                   argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
-      name: "{{ .path[2] }}-{{ name }}"
+      name: "{{ .name }}-{{ name }}"
       namespace: default
       labels:
         cluster: "{{ name }}"
