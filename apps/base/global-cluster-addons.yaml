@@ -14,9 +14,9 @@ spec:
         generators:
           - git:
               repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-              revision: main
+              revision: variable_deployment
               files:
-                - path: global-cluster-addons/manifests/*/config.yaml
+                - path: global-cluster-addons/manifests/*/kustomization.yaml
           - clusters:
               selector:
                 matchLabels:
@@ -35,7 +35,7 @@ spec:
     spec:
       project: default
       source:
-        path: "{{ path }}/base/"
+        path: "{{ path }}/../../base/"
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
         targetRevision: "{{ app.revision }}"
       destination:
