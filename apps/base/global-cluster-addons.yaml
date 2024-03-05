@@ -78,7 +78,7 @@ spec:
           - 'env/{{ name }}/values.yaml'
       destination:
         server: '{{ config.server }}'
-        namespace: '{{ app.namespace }}'
+        namespace: default
       syncPolicy:
         automated:
           prune: true
