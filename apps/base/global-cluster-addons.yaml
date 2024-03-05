@@ -17,10 +17,6 @@ spec:
               revision: variable_deployment
               files:
                 - path: global-cluster-addons/manifests/*/overlays/*/kustomization.yaml
-          - clusters:
-              selector:
-                matchLabels:
-                  argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
       name: "{{ .name }}-{{ name }}"
