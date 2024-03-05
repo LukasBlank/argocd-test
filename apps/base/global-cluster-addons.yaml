@@ -10,13 +10,12 @@ metadata:
     argocd.argoproj.io/sync-wave: "-100"
 spec:
   generators:
-    - matrix:
-        generators:
-          - git:
-              repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-              revision: variable_deployment
-              files:
-                - path: global-cluster-addons/manifests/*/overlays/*/kustomization.yaml
+      generators:
+        - git:
+            repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
+            revision: variable_deployment
+            files:
+              - path: global-cluster-addons/manifests/*/overlays/*/kustomization.yaml
   template:
     metadata:
       name: "{{ .name }}-{{ name }}"
