@@ -17,7 +17,7 @@ spec:
       - path: global-cluster-addons/manifests/*/overlays/*/kustomization.yaml
   template:
     metadata:
-      name: '{{ path.basename }}-{{ .path }}'
+      name: '{{ path.basename }}-{{ path[1] }}'
       namespace: default
       labels:
         cluster: '{{ path.basename }}'
