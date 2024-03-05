@@ -87,7 +87,7 @@ spec:
           releaseName: '{{ path.basename }}'
           ignoreMissingValueFiles: true
           valueFiles:
-          - 'env/{{ metadata.labels.region }}/{{ name }}/values.yaml'
+          - 'env/{{ name }}/values.yaml'
       destination:
         server: '{{ server }}'
         namespace: '{{ app.namespace }}'
