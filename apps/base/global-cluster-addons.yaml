@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: global-cluster-addons-manifests
+  name: global-cluster-addons
   namespace: default
   labels:
     deployment: kustomize
@@ -10,19 +10,18 @@ metadata:
     argocd.argoproj.io/sync-wave: "-100"
 spec:
   generators:
-      generators:
-        - git:
-            repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-            revision: variable_deployment
-            files:
-              - path: global-cluster-addons/manifests/*/overlays/*/kustomization.yaml
+  - git:
+      repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
+      revision: variable_deployment
+      files:
+      - path: global-cluster-addons/manifests/*/overlays/*/kustomization.yaml
   template:
     metadata:
-      name: "{{ path.basename }}-{{ name }}"
+      name: '{{ path.basename }}-{{ name }}'
       namespace: default
       labels:
-        cluster: "{{ name }}"
-        name: "{{ path.basename }}"
+        cluster: '{{ name }}'
+        name: '{{ path.basename }}'
       annotations:
         argocd.argoproj.io/sync-wave: "{{ app.syncWave }}"
       finalizers:
@@ -30,12 +29,12 @@ spec:
     spec:
       project: default
       source:
-        path: "{{ path }}/../../base/"
+        path: '{{ path }}/base'
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-        targetRevision: "{{ app.revision }}"
+        targetRevision: '{{ app.revision }}'
       destination:
-        server: "{{ server }}"
-        namespace: "{{ app.namespace }}"
+        server: '{{ server }}'
+        namespace: '{{ app.namespace }}'
       syncPolicy:
         automated: {}
 ---
@@ -50,37 +49,44 @@ metadata:
     argocd.argoproj.io/sync-wave: "-100"
 spec:
   generators:
-    - git:
-        repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-        revision: HEAD
-        files:
-          - path: global-cluster-addons/charts/*/env/*/values.yaml
+  - matrix:
+      generators:
+      - git:
+          repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
+          revision: initial_structure
+          files:
+          - path: global-cluster-addons/charts/*/config.yaml
+      - clusters:
+          selector:
+            matchLabels:
+              argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
-      name: "{{ config.name }}-{{ config.version }}-{{ config.cluster }}"
+      name: '{{ path.basename }}-{{ name }}'
       namespace: default
       labels:
-        cluster: "{{ config.cluster }}"
-        name: "{{ config.name }}"
-        version: "{{ config.version }}"
+        cluster: '{{ name }}'
+        name: '{{ path.basename }}'
       annotations:
-        argocd.argoproj.io/sync-wave: "-50"
+        argocd.argoproj.io/sync-wave: "{{ app.syncWave }}"
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
       project: default
       source:
-        path: "global-cluster-addons/charts/{{ config.name }}/version_{{ config.version }}"
+        path: '{{ path }}/chart'
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-        targetRevision: "main"
+        targetRevision: '{{ app.revision }}'
         helm:
-          releaseName: "{{ config.name }}"
+          releaseName: '{{ path.basename }}'
+          ignoreMissingValueFiles: true
           valueFiles:
-            - "../env/{{ config.cluster }}/values.yaml"
+          - 'env/{{ name }}/values.yaml'
       destination:
-        server: "{{ config.server }}"
-        namespace: "{{ config.name }}"
+        server: '{{ server }}'
+        namespace: '{{ app.namespace }}'
       syncPolicy:
-        automated: {}
+        automated:
+          prune: true
+          selfHeal: true
 ---
-
