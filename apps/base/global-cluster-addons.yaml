@@ -34,7 +34,7 @@ spec:
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
-      project: cluster-addons
+      project: default
       source:
         path: '{{ path }}/manifest/overlays/{{ name }}'
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
@@ -80,7 +80,7 @@ spec:
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
-      project: cluster-addons
+      project: default
       source:
         path: '{{ path }}/chart'
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
