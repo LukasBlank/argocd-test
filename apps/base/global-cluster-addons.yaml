@@ -77,7 +77,7 @@ spec:
           valueFiles:
           - 'env/{{ name }}/values.yaml'
       destination:
-        server: '{{ server }}'
+        server: '{{ config.server }}'
         namespace: '{{ app.namespace }}'
       syncPolicy:
         automated:

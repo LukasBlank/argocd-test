@@ -3,3 +3,6 @@ external-secrets:
   serviceAccount:
     create: true
     name: external-secrets
+
+config:
+  server: https://172.27.212.74:8443
