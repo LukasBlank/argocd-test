@@ -17,10 +17,10 @@ spec:
       - path: global-cluster-addons/manifests/*/overlays/*/kustomization.yaml
   template:
     metadata:
-      name: '{{ path.basename }}-{{ name }}'
+      name: '{{ path.basename }}-{{ .path }}'
       namespace: default
       labels:
-        cluster: '{{ name }}'
+        cluster: '{{ path.basename }}'
         name: '{{ path.basename }}'
       annotations:
         argocd.argoproj.io/sync-wave: "{{ app.syncWave }}"
