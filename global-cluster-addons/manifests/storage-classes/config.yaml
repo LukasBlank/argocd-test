@@ -1,4 +1,4 @@
 app:
   syncWave: "-80"
-  revision: main
+  revision: variable_deployment
   namespace: ""
