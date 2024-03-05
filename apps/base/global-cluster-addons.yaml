@@ -29,7 +29,7 @@ spec:
     spec:
       project: default
       source:
-        path: '{{ path }}'
+        path: '{{ path }}/../../base'
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
         targetRevision: variable_deployment
       destination:
