@@ -3,6 +3,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: global-cluster-addons
+  namespace: default
   labels:
     deployment: kustomize
   annotations:
@@ -34,7 +35,7 @@ spec:
     spec:
       project: cluster-addons
       source:
-        path: '{{ path }}/manifest/overlays/{{ metadata.labels.region }}/{{ name }}'
+        path: '{{ path }}/manifest/overlays/{{ name }}'
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
         targetRevision: '{{ app.revision }}'
       destination:
@@ -47,6 +48,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: global-cluster-addons-charts
+  namespace: default
   labels:
     deployment: helm
   annotations:
