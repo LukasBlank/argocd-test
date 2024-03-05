@@ -5,4 +5,4 @@ external-secrets:
     name: external-secrets
 
 config:
-  server: https://172.27.212.74:8443
+  server: https://172.21.191.186:8443
