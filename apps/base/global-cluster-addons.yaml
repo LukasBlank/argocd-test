@@ -2,45 +2,44 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: global-cluster-addons-manifests
-  namespace: default
+  name: global-cluster-addons
   labels:
     deployment: kustomize
   annotations:
     argocd.argoproj.io/sync-wave: "-100"
 spec:
   generators:
-    - matrix:
-        generators:
-          - git:
-              repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-              revision: main
-              files:
-                - path: global-cluster-addons/manifests/*/config.yaml
-          - clusters:
-              selector:
-                matchLabels:
-                  argocd.argoproj.io/secret-type: cluster
+  - matrix:
+      generators:
+      - git:
+          repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
+          revision: initial_structure
+          files:
+          - path: global-cluster-addons/manifests/*/config.yaml
+      - clusters:
+          selector:
+            matchLabels:
+              argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
-      name: "{{ path.basename }}-{{ name }}"
-      namespace: default
+      name: '{{ path.basename }}-{{ name }}-{{ metadata.labels.region }}'
       labels:
-        cluster: "{{ name }}"
-        name: "{{ path.basename }}"
+        cluster: '{{ name }}'
+        region: '{{ metadata.labels.region }}'
+        name: '{{ path.basename }}'
       annotations:
         argocd.argoproj.io/sync-wave: "{{ app.syncWave }}"
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
-      project: default
+      project: cluster-addons
       source:
-        path: "{{ path }}/base/"
+        path: '{{ path }}/manifest/overlays/{{ metadata.labels.region }}/{{ name }}'
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-        targetRevision: "{{ app.revision }}"
+        targetRevision: '{{ app.revision }}'
       destination:
-        server: "{{ server }}"
-        namespace: "{{ app.namespace }}"
+        server: '{{ server }}'
+        namespace: '{{ app.namespace }}'
       syncPolicy:
         automated: {}
 ---
@@ -48,44 +47,50 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: global-cluster-addons-charts
-  namespace: default
   labels:
     deployment: helm
   annotations:
     argocd.argoproj.io/sync-wave: "-100"
 spec:
   generators:
-    - git:
-        repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-        revision: HEAD
-        files:
-          - path: global-cluster-addons/charts/*/env/*/values.yaml
+  - matrix:
+      generators:
+      - git:
+          repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
+          revision: initial_structure
+          files:
+          - path: global-cluster-addons/charts/*/config.yaml
+      - clusters:
+          selector:
+            matchLabels:
+              argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
-      name: "{{ config.name }}-{{ config.version }}-{{ config.cluster }}"
-      namespace: default
+      name: '{{ path.basename }}-{{ name }}-{{ metadata.labels.region }}'
       labels:
-        cluster: "{{ config.cluster }}"
-        name: "{{ config.name }}"
-        version: "{{ config.version }}"
+        cluster: '{{ name }}'
+        region: '{{ metadata.labels.region }}'
+        name: '{{ path.basename }}'
       annotations:
-        argocd.argoproj.io/sync-wave: "-50"
+        argocd.argoproj.io/sync-wave: "{{ app.syncWave }}"
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
-      project: default
+      project: cluster-addons
       source:
-        path: "global-cluster-addons/charts/{{ config.name }}/version_{{ config.version }}"
+        path: '{{ path }}/chart'
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-        targetRevision: "main"
+        targetRevision: '{{ app.revision }}'
         helm:
-          releaseName: "{{ config.name }}"
+          releaseName: '{{ path.basename }}'
+          ignoreMissingValueFiles: true
           valueFiles:
-            - "../env/{{ config.cluster }}/values.yaml"
+          - 'env/{{ metadata.labels.region }}/{{ name }}/values.yaml'
       destination:
-        server: "{{ config.server }}"
-        namespace: "{{ config.name }}"
+        server: '{{ server }}'
+        namespace: '{{ app.namespace }}'
       syncPolicy:
-        automated: {}
+        automated:
+          prune: true
+          selfHeal: true
 ---
-
