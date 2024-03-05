@@ -31,7 +31,7 @@ spec:
       source:
         path: '{{ path }}/base'
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
-        targetRevision: '{{ app.revision }}'
+        targetRevision: variable_deployment
       destination:
         server: '{{ config.server }}'
         namespace: '{{ app.namespace }}'
