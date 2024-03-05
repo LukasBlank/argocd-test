@@ -59,7 +59,7 @@ spec:
       name: '{{ path.basename }}-{{ path[2] }}'
       namespace: default
       labels:
-        cluster: '{{ name }}'
+        cluster: '{{ path.basename }}'
         name: '{{ path[2] }}'
       annotations:
         argocd.argoproj.io/sync-wave: "{{ app.syncWave }}"
