@@ -33,7 +33,7 @@ spec:
         repoURL: https://github.com/LukasBlank/cluster-gitops-test.git
         targetRevision: '{{ app.revision }}'
       destination:
-        server: '{{ .server }}'
+        server: '{{ config.server }}'
         namespace: '{{ app.namespace }}'
       syncPolicy:
         automated: {}
